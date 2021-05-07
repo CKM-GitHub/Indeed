@@ -2,7 +2,7 @@
 
 
 
-        #region Search by Key and Location on Indeed and Export to Excel         private void btnRun_Click(object sender, EventArgs e)        {            this.Cursor = Cursors.WaitCursor;            DataTable dtFinal = new DataTable();            DataTable dtResult = new DataTable();            dtResult.Columns.Add("Title");            dtResult.Columns.Add("Company");            dtResult.Columns.Add("都道府県");            dtResult.Columns.Add("Location");            dtResult.Columns.Add("お問い合わせのURL");            int j = 0;            bool go = true;//to check last page
+        #region Search by Key and Location on Indeed and Export to Excel         private void btnRun_Click(object sender, EventArgs e)        {            this.Cursor = Cursors.WaitCursor;            DataTable dtFinal = new DataTable();            DataTable dtResult = new DataTable();            dtResult.Columns.Add("Title");            dtResult.Columns.Add("Company");            dtResult.Columns.Add("都道府県");            dtResult.Columns.Add("Location");               dtResult.Columns.Add("お問い合わせのURL");            int j = 0;            bool go = true;//to check last page
             int start = 0;//start page = 0,next page = 10,next page = 20.......
 
             IWebDriver driver = new ChromeDriver();            do            {
