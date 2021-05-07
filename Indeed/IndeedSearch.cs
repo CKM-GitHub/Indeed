@@ -54,7 +54,7 @@
 
 
 
-                dtFinal = dtResult;//ktp - to remove 
+                dtFinal = dtResult;//ktp - to remove  
                 //if (dtResult.Rows.Count > 0)                //{                //    dtFinal = dtResult.AsEnumerable()                //                                     .GroupBy(x => x.Field<string>("Company"))                //                                     .Select(x => x.First())                //                                     .CopyToDataTable();                //}                start += 50;//next page
 
 
