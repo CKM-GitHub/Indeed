@@ -49,7 +49,7 @@
                         dtResult.Rows[j]["Location"] = arrLocation[i].Text;
                         dtResult.Rows[j]["お問い合わせのURL"] = string.Empty;
                         j++;
-                    }
+                    } 
                 }
 
 
