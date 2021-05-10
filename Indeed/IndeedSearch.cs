@@ -8,7 +8,7 @@
 
             IWebDriver driver = new ChromeDriver();            int LastPageNo = 0;            do            {
                 driver.Navigate().GoToUrl("https://jp.indeed.com/jobs?q=" + txtKeyword.Text + "&l=" + txtLocation.Text + "&limit=50&radius=25&start=" + start.ToString());//searh url with start param
-               // driver.Navigate().GoToUrl("https://jp.indeed.com/%E6%B1%82%E4%BA%BA?q=%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9E&l=%E5%8C%97%E6%B5%B7%E9%81%93&limit=50&radius=25");//searh url with start param
+                                                                                                                                                                          // driver.Navigate().GoToUrl("https://jp.indeed.com/%E6%B1%82%E4%BA%BA?q=%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9E&l=%E5%8C%97%E6%B5%B7%E9%81%93&limit=50&radius=25");//searh url with start param
 
                 Thread.Sleep(3000);//wait page load
 
@@ -23,66 +23,94 @@
                 {
                     y[0].Click();
                 }
-               
 
-                IList<IWebElement> a = driver.FindElements(By.XPath("//*[@aria-current=\"true\"]"));
-                int CurrentPageNo = Convert.ToInt32(a[0].Text);
-
-                if(LastPageNo >= CurrentPageNo)
-                    IsLastPageNo = true;
-                else
+                try
                 {
-                    LastPageNo = CurrentPageNo;
+                    IList<IWebElement> a = driver.FindElements(By.XPath("//*[@aria-current=\"true\"]"));
+                    int CurrentPageNo = Convert.ToInt32(a[0].Text);
 
-                    //get all title,company,location by array
-                    IList<IWebElement> arrTitle = driver.FindElements(By.ClassName("title"));//募集内容 
-                    IList<IWebElement> arrCompany = driver.FindElements(By.ClassName("company"));//会社名
-                                                                                                 //IList<IWebElement> arrPrefecture = driver.FindElements(By.ClassName("prefecture"));//都道府県
-                    IList<IWebElement> arrLocation = driver.FindElements(By.ClassName("location"));//所在地
-
-                    for (int i = 0; i < arrTitle.Count; i++)
+                    if (LastPageNo >= CurrentPageNo)
+                        IsLastPageNo = true;
+                    else
                     {
-                        dtResult.Rows.Add();
-                        dtResult.Rows[j]["Title"] = arrTitle[i].Text;
-                        dtResult.Rows[j]["Company"] = arrCompany[i].Text;
-                        dtResult.Rows[j]["都道府県"] = txtLocation.Text;
-                        dtResult.Rows[j]["Location"] = arrLocation[i].Text;
-                        dtResult.Rows[j]["お問い合わせのURL"] = string.Empty;
-                        j++;
-                    } 
+                        LastPageNo = CurrentPageNo;
+
+                        //get all title,company,location by array
+                        IList<IWebElement> arrTitle = driver.FindElements(By.ClassName("title"));//募集内容 
+                        IList<IWebElement> arrCompany = driver.FindElements(By.ClassName("company"));//会社名
+                                                                                                     //IList<IWebElement> arrPrefecture = driver.FindElements(By.ClassName("prefecture"));//都道府県
+                        IList<IWebElement> arrLocation = driver.FindElements(By.ClassName("location"));//所在地
+
+                        for (int i = 0; i < arrTitle.Count; i++)
+                        {
+                            dtResult.Rows.Add();
+                            dtResult.Rows[j]["Title"] = arrTitle[i].Text;
+                            dtResult.Rows[j]["Company"] = arrCompany[i].Text;
+                            dtResult.Rows[j]["都道府県"] = txtLocation.Text;
+                            dtResult.Rows[j]["Location"] = arrLocation[i].Text;
+                            dtResult.Rows[j]["お問い合わせのURL"] = string.Empty;
+                            j++;
+                        }
+                    }
+
+                    //dtFinal = dtResult;//ktp - to remove  
+                                       //if (dtResult.Rows.Count > 0)
+                                       //{
+                                       //    dtFinal = dtResult.AsEnumerable()
+                                       //                                     .GroupBy(x => x.Field<string>("Company"))
+                                       //                                     .Select(x => x.First())
+                                       //                                     .CopyToDataTable();
+                                       //}
+
+                    start += 50;//next page
+
+                    //var CountLi = 0;
+                    //IList<IWebElement> arrPaging;
+                    //try
+                    //{
+                    //    arrPaging = driver.FindElements(By.ClassName("pn"));
+                    //}
+                    //catch
+                    //{
+                    //    arrPaging = driver.FindElements(By.ClassName("np"));
+                    //}
+                    //if (!(arrPaging.Count() == 0))
+                    //{
+                    //    CountLi = arrPaging.Count() + 1;
+
+                    //    var result = driver.FindElement(By.XPath("//*[@id=\"resultsCol\"]/nav/div/ul/li[" + CountLi + "]"));
+
+                    //    var bTagCheck = result.GetAttribute("innerHTML");
+                    //    if (bTagCheck.Contains("</b>"))
+                    //    {
+                    //        IsLastPageNo = true;
+                    //    }
+                    //}
+                    //else IsLastPageNo = true;
                 }
+                catch
+                {
+                    //IList<IWebElement> arrTitle = driver.FindElements(By.ClassName("title"));//募集内容 
+                    //IList<IWebElement> arrCompany = driver.FindElements(By.ClassName("company"));//会社名
+                    //                                                                             //IList<IWebElement> arrPrefecture = driver.FindElements(By.ClassName("prefecture"));//都道府県
+                    //IList<IWebElement> arrLocation = driver.FindElements(By.ClassName("location"));//所在地
 
-                 
-
-                dtFinal = dtResult;//ktp - to remove  
-                //if (dtResult.Rows.Count > 0)                //{                //    dtFinal = dtResult.AsEnumerable()                //                                     .GroupBy(x => x.Field<string>("Company"))                //                                     .Select(x => x.First())                //                                     .CopyToDataTable();                //}                start += 50;//next page
-
-
-                //var CountLi = 0;
-                //IList<IWebElement> arrPaging;
-                //try
-                //{
-                //    arrPaging = driver.FindElements(By.ClassName("pn"));
-                //}
-                //catch
-                //{
-                //    arrPaging = driver.FindElements(By.ClassName("np"));
-                //}
-                //if (!(arrPaging.Count() == 0))
-                //{
-                //    CountLi = arrPaging.Count() + 1;
-
-                //    var result = driver.FindElement(By.XPath("//*[@id=\"resultsCol\"]/nav/div/ul/li[" + CountLi + "]"));
-
-                //    var bTagCheck = result.GetAttribute("innerHTML");
-                //    if (bTagCheck.Contains("</b>"))
-                //    {
-                //        IsLastPageNo = true;
-                //    }
-                //}
-                //else IsLastPageNo = true;
-            } while (!IsLastPageNo);            string saveFolder = @"C:\Indeed\Search_Result\2021_05_03";
-            if (!Directory.Exists(saveFolder))            {                Directory.CreateDirectory(saveFolder);            }            SaveFileDialog savedialog = new SaveFileDialog();            savedialog.Filter = "Excel Files|*.xlsx;";            savedialog.Title = "Save";            savedialog.FileName = "_Result";            savedialog.InitialDirectory = saveFolder;            savedialog.RestoreDirectory = true;            if (savedialog.ShowDialog() == DialogResult.OK)            {                if (Path.GetExtension(savedialog.FileName).Contains(".xlsx"))                {                    using (XLWorkbook wb = new XLWorkbook())                    {                        wb.Worksheets.Add(dtFinal, "SearchResult");                        wb.SaveAs(savedialog.FileName);                    }                    Process.Start(Path.GetDirectoryName(savedialog.FileName));                }            }            driver.Quit();
+                    //for (int i = 0; i < arrTitle.Count; i++)
+                    //{
+                    //    dtResult.Rows.Add();
+                    //    dtResult.Rows[j]["Title"] = arrTitle[i].Text;
+                    //    dtResult.Rows[j]["Company"] = arrCompany[i].Text;
+                    //    dtResult.Rows[j]["都道府県"] = txtLocation.Text;
+                    //    dtResult.Rows[j]["Location"] = arrLocation[i].Text;
+                    //    dtResult.Rows[j]["お問い合わせのURL"] = string.Empty;
+                    //    j++;
+                    IsLastPageNo = true;
+                }
+                    
+                
+                
+            } while (!IsLastPageNo) ;                        string saveFolder = @"C:\Indeed\Search_Result\2021_05_03";
+            if (!Directory.Exists(saveFolder))            {                Directory.CreateDirectory(saveFolder);            }            SaveFileDialog savedialog = new SaveFileDialog();            savedialog.Filter = "Excel Files|*.xlsx;";            savedialog.Title = "Save";            savedialog.FileName = "_Result";            savedialog.InitialDirectory = saveFolder;            savedialog.RestoreDirectory = true;            if (savedialog.ShowDialog() == DialogResult.OK)            {                if (Path.GetExtension(savedialog.FileName).Contains(".xlsx"))                {                    using (XLWorkbook wb = new XLWorkbook())                    {                        wb.Worksheets.Add(dtResult, "SearchResult");                        wb.SaveAs(savedialog.FileName);                    }                    Process.Start(Path.GetDirectoryName(savedialog.FileName));                }            }            driver.Quit();
 
             //using (XLWorkbook wb = new XLWorkbook())
             //{
