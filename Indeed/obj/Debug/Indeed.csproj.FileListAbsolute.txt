@@ -139,10 +139,12 @@ C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\bi
 C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\bin\Debug\ExcelNumberFormat.xml
 C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\bin\Debug\WebDriver.xml
 C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\obj\Debug\Indeed.csprojAssemblyReference.cache
-C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\obj\Debug\Indeed.Form1.resources
 C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\obj\Debug\Indeed.Properties.Resources.resources
 C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\obj\Debug\Indeed.csproj.GenerateResource.cache
 C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\obj\Debug\Indeed.csproj.CoreCompileInputs.cache
 C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\obj\Debug\Indeed.csproj.CopyComplete
 C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\obj\Debug\Indeed.exe
 C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\obj\Debug\Indeed.pdb
+C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\obj\Debug\Indeed.frmBaseConnect.resources
+C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\obj\Debug\Indeed.frmIndeed.resources
+C:\Users\kyawt\Documents\Projects\Indeed\capital-phyoethurakyaw\Indeed\Indeed\obj\Debug\Indeed.Menu.resources

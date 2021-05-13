@@ -81,16 +81,34 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmBaseConnect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBaseConnect.Designer.cs">
+      <DependentUpon>frmBaseConnect.cs</DependentUpon>
+    </Compile>
     <Compile Include="IndeedSearch.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="IndeedSearch.Designer.cs">
       <DependentUpon>IndeedSearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="Menu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Menu.Designer.cs">
+      <DependentUpon>Menu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmBaseConnect.resx">
+      <DependentUpon>frmBaseConnect.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IndeedSearch.resx">
       <DependentUpon>IndeedSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Menu.resx">
+      <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
