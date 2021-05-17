@@ -2,7 +2,7 @@
 
 
 
-        #region Search by Key and Location on Indeed and Export to Excel         private void btnRun_Click(object sender, EventArgs e)        {            IWebDriver driver = new ChromeDriver();            try
+        #region Search by Key and Location on Indeed and Export to Excel         private void btnRun_Click(object sender, EventArgs e)        {            IWebDriver driver;            try
             {
                 this.Cursor = Cursors.WaitCursor;
                 DataTable dtFinal = new DataTable();
@@ -15,52 +15,98 @@
 
                 int j = 0;
                 int start = 0;//start page = 0,next page = 10,next page = 20.......
-                int TotalCount = 0;
+                bool stop = false;
+
+                string Title1 = string.Empty;
+                string Title2 = string.Empty;
+                string Title3 = string.Empty;
+
+                string LastTitle1 = string.Empty;
+                string LastTitle2 = string.Empty;
+                string LastTitle3 = string.Empty;
 
                 string[] locationArr = txtLocation.Text.Split(',');
                 foreach(string location in locationArr)
                 {
+                    driver = new ChromeDriver();
                     start = 0;
                     do
                     {
-                        driver.Navigate().GoToUrl("https://jp.indeed.com/jobs?q=" + txtKeyword.Text + "&l=" + location + "&limit=50&start=" + start.ToString());//searh url with start param
+                        
+                        string l1 = location.Replace(" ", "+");
+                        driver.Navigate().GoToUrl("https://jp.indeed.com/jobs?q=" + txtKeyword.Text + "&l=" + l1 + "&limit=50&start=" + start.ToString());//searh url with start param
 
-                        Thread.Sleep(3000);//wait page load
+                        Thread.Sleep(5000);//wait page load
+                       
 
-                        IList<IWebElement> y = driver.FindElements(By.XPath("//*[@id=\"popover-x\"]"));
-                        if (y.Count > 0)
+                        
+                        if(driver.FindElements(By.ClassName("h-captcha")).Count > 0)
                         {
-                            y[0].Click();
-                        }
+                            IList<IWebElement> ec1 = driver.FindElements(By.Id("fj"));
+                            if (ec1.Count == 0)
+                            {
+                                MessageBox.Show("Please solve Captcha and Click OK");
+                            }
 
-                        if (start == 0)
+                            IList<IWebElement> y = driver.FindElements(By.XPath("//*[@id=\"popover-x\"]"));
+                            if (y.Count > 0)
+                            {
+                                y[0].Click();
+                            }
+
+                            //get all title,company,location by array
+                            IList<IWebElement> arrTitle = driver.FindElements(By.ClassName("title"));//募集内容 
+                            IList<IWebElement> arrCompany = driver.FindElements(By.ClassName("company"));//会社名
+                                                                                                         //IList<IWebElement> arrPrefecture = driver.FindElements(By.ClassName("prefecture"));//都道府県
+                            IList<IWebElement> arrLocation = driver.FindElements(By.ClassName("location"));//所在地
+
+                            for (int i = 0; i < arrTitle.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    Title1 = arrTitle[i].Text;
+                                }
+                                else if (i == 2)
+                                {
+                                    Title2 = arrTitle[i].Text;
+                                }
+                                else if (i == 3)
+                                {
+                                    Title3 = arrTitle[i].Text;
+                                }
+
+                                dtResult.Rows.Add();
+                                dtResult.Rows[j]["Title"] = arrTitle[i].Text;
+                                dtResult.Rows[j]["Company"] = arrCompany[i].Text;
+                                dtResult.Rows[j]["都道府県"] = location;
+                                dtResult.Rows[j]["Location"] = arrLocation[i].Text;
+                                dtResult.Rows[j]["お問い合わせのURL"] = string.Empty;
+                                j++;
+                            }
+
+                            if (string.Equals(Title1, LastTitle1) && string.Equals(Title2, LastTitle2) && string.Equals(Title3, LastTitle3))
+                            {
+                                stop = true;
+                            }
+                            else
+                            {
+                                LastTitle1 = Title1;
+                                LastTitle2 = Title2;
+                                LastTitle3 = Title3;
+                            }
+                        }
+                        else
                         {
-                            IList<IWebElement> c1 = driver.FindElements(By.XPath("//*[@id=\"searchCountPages\"]"));
-                            string[] strarr = c1[0].Text.Split(' ');
-                            TotalCount = Convert.ToInt32(strarr[1].Replace(",",""));
+                            txtLocation.Text = location;
+                            stop = true;
+                            break;
                         }
-
-
-                        //get all title,company,location by array
-                        IList<IWebElement> arrTitle = driver.FindElements(By.ClassName("title"));//募集内容 
-                        IList<IWebElement> arrCompany = driver.FindElements(By.ClassName("company"));//会社名
-                                                                                                     //IList<IWebElement> arrPrefecture = driver.FindElements(By.ClassName("prefecture"));//都道府県
-                        IList<IWebElement> arrLocation = driver.FindElements(By.ClassName("location"));//所在地
-
-                        for (int i = 0; i < arrTitle.Count; i++)
-                        {
-                            dtResult.Rows.Add();
-                            dtResult.Rows[j]["Title"] = arrTitle[i].Text;
-                            dtResult.Rows[j]["Company"] = arrCompany[i].Text;
-                            dtResult.Rows[j]["都道府県"] = location;
-                            dtResult.Rows[j]["Location"] = arrLocation[i].Text;
-                            dtResult.Rows[j]["お問い合わせのURL"] = string.Empty;
-                            j++;
-                        }
-
+                                             
                         start += 50;//next page
 
-                    } while (start <= TotalCount);
+                    } while (!stop);
+
+                    driver.Quit();
                 }
 
                 //dtFinal = dtResult;//ktp - to remove  
@@ -73,7 +119,7 @@
                 }
 
 
-                string saveFolder = @"C:\Indeed\Search_Result\2021_05_03";
+                string saveFolder = @"C:\Indeed\Search_Result\2021_05_14";
                 if (!Directory.Exists(saveFolder))
                 {
                     Directory.CreateDirectory(saveFolder);
@@ -81,7 +127,7 @@
                 SaveFileDialog savedialog = new SaveFileDialog();
                 savedialog.Filter = "Excel Files|*.xlsx;";
                 savedialog.Title = "Save";
-                savedialog.FileName = "_Result";
+                savedialog.FileName = "Indeed_"+DateTime.Now.ToString("yyyyMMdd_HHmm");
                 savedialog.InitialDirectory = saveFolder;
                 savedialog.RestoreDirectory = true;
 
@@ -101,10 +147,10 @@
             }            catch(Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }            finally
-            {
-                driver.Quit();
-            }                        
+            }            //finally
+            //{
+            //    driver.Quit();
+            //}                        
 
             //using (XLWorkbook wb = new XLWorkbook())
             //{
