@@ -41,7 +41,7 @@ namespace Indeed
 
                 ArrayList UrlList = new ArrayList();
                 bool LastPage = false;
-                int pgNo = 1;
+                int pgNo = 190;
                 do
                 {
                     driver.Navigate().GoToUrl("https://baseconnect.in/companies/category/377d61f9-f6d3-4474-a6aa-4f14e3fd9b17?page=" + pgNo.ToString());
