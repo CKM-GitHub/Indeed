@@ -113,7 +113,7 @@
                                              
                         start += 50;//next page
 
-                    } while (c1  >= itemcount);
+                    } while (c1 >= itemcount);
 
                     //driver.Quit();
                 }
