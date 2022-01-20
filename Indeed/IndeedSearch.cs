@@ -46,71 +46,82 @@
                             break;
 
                         string s1 = driver.FindElement(By.Id("searchCountPages")).Text;
-                        c1 = Convert.ToInt32(s1.Split(' ')[1].Replace(",",""));
-                        
-                        if(driver.FindElements(By.ClassName("h-captcha")).Count > 0)
+                        if(s1.Length > 0)       //added by tza for index was out of range error
                         {
-                            IList<IWebElement> ec1 = driver.FindElements(By.Id("fj"));
-                            if (ec1.Count == 0)
+                            c1 = Convert.ToInt32(s1.Split(' ')[1].Replace(",", ""));
+
+                            if (driver.FindElements(By.ClassName("h-captcha")).Count > 0)
                             {
-                                MessageBox.Show("Please solve Captcha and Click OK");
-                            }
+                                IList<IWebElement> ec1 = driver.FindElements(By.Id("fj"));
+                                if (ec1.Count == 0)
+                                {
+                                    //MessageBox.Show("Please solve Captcha and Click OK");
+                                }
 
-                            IList<IWebElement> y = driver.FindElements(By.XPath("//*[@id=\"popover-x\"]"));
-                            if (y.Count > 0)
+                                IList<IWebElement> y = driver.FindElements(By.XPath("//*[@id=\"popover-x\"]"));
+                                if (y.Count > 0)
+                                {
+                                    y[0].Click();
+                                }
+
+                                //get all title,company,location by array
+                                IList<IWebElement> arrTitle = driver.FindElements(By.ClassName("title"));//募集内容 
+                                IList<IWebElement> arrCompany = driver.FindElements(By.ClassName("company"));//会社名
+                                                                                                             //IList<IWebElement> arrPrefecture = driver.FindElements(By.ClassName("prefecture"));//都道府県
+                                IList<IWebElement> arrLocation = driver.FindElements(By.ClassName("location"));//所在地
+
+                                for (int i = 0; i < arrTitle.Count; i++)
+                                {
+                                    //if (i == 0)
+                                    //{
+                                    //    Title1 = arrTitle[i].Text;
+                                    //}
+                                    //else if (i == 2)
+                                    //{
+                                    //    Title2 = arrTitle[i].Text;
+                                    //}
+                                    //else if (i == 3)
+                                    //{
+                                    //    Title3 = arrTitle[i].Text;
+                                    //}
+
+                                    dtResult.Rows.Add();
+                                    dtResult.Rows[j]["Title"] = arrTitle[i].Text;
+                                    if (arrCompany.Count > i)
+                                        dtResult.Rows[j]["Company"] = arrCompany[i].Text;
+                                    else
+                                        dtResult.Rows[j]["Company"] = " ";
+                                    dtResult.Rows[j]["都道府県"] = location;
+                                    if(arrLocation.Count > i)
+                                        dtResult.Rows[j]["Location"] = arrLocation[i].Text;
+                                    else
+                                        dtResult.Rows[j]["Location"] = " ";
+                                    dtResult.Rows[j]["お問い合わせのURL"] = string.Empty;
+                                    dtResult.Rows[j]["City"] = location;
+                                    j++;
+                                }
+
+                                itemcount += arrTitle.Count;
+
+                                //if (string.Equals(Title1, LastTitle1) && string.Equals(Title2, LastTitle2) && string.Equals(Title3, LastTitle3))
+                                //{
+                                //    stop = true;
+                                //}
+                                //else
+                                //{
+                                //    LastTitle1 = Title1;
+                                //    LastTitle2 = Title2;
+                                //    LastTitle3 = Title3;
+                                //}
+                            }
+                            else
                             {
-                                y[0].Click();
+                                break;
                             }
-
-                            //get all title,company,location by array
-                            IList<IWebElement> arrTitle = driver.FindElements(By.ClassName("title"));//募集内容 
-                            IList<IWebElement> arrCompany = driver.FindElements(By.ClassName("company"));//会社名
-                                                                                                         //IList<IWebElement> arrPrefecture = driver.FindElements(By.ClassName("prefecture"));//都道府県
-                            IList<IWebElement> arrLocation = driver.FindElements(By.ClassName("location"));//所在地
-
-                            for (int i = 0; i < arrTitle.Count; i++)
-                            {
-                                //if (i == 0)
-                                //{
-                                //    Title1 = arrTitle[i].Text;
-                                //}
-                                //else if (i == 2)
-                                //{
-                                //    Title2 = arrTitle[i].Text;
-                                //}
-                                //else if (i == 3)
-                                //{
-                                //    Title3 = arrTitle[i].Text;
-                                //}
-
-                                dtResult.Rows.Add();
-                                dtResult.Rows[j]["Title"] = arrTitle[i].Text;
-                                dtResult.Rows[j]["Company"] = arrCompany[i].Text;
-                                dtResult.Rows[j]["都道府県"] = location;
-                                dtResult.Rows[j]["Location"] = arrLocation[i].Text;
-                                dtResult.Rows[j]["お問い合わせのURL"] = string.Empty;
-                                dtResult.Rows[j]["City"] = location ;
-                                j++;
-                            }
-
-                            itemcount += arrTitle.Count;
-
-                            //if (string.Equals(Title1, LastTitle1) && string.Equals(Title2, LastTitle2) && string.Equals(Title3, LastTitle3))
-                            //{
-                            //    stop = true;
-                            //}
-                            //else
-                            //{
-                            //    LastTitle1 = Title1;
-                            //    LastTitle2 = Title2;
-                            //    LastTitle3 = Title3;
-                            //}
                         }
                         else
-                        {
-                            break;
-                        }
-                                             
+                            MessageBox.Show(txtKeyword.Text + "   TZA   " + s1);
+
                         start += 50;//next page
 
                     } while (c1 >= itemcount);
