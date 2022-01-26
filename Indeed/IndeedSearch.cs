@@ -126,42 +126,43 @@
 
                     } while (c1 >= itemcount);
 
-                    //dtFinal = dtResult;//ktp - to remove 
-                    if (dtResult.Rows.Count > 0)
-                    {
-                        dtFinal = dtResult.AsEnumerable()
-                                                         .GroupBy(x => x.Field<string>("Company"))
-                                                         .Select(x => x.First())
-                                                         .CopyToDataTable();
-                    }
-
-
-                    string saveFolder = @"C:\Indeed\Search_Result\2021_05_14";
-                    if (!Directory.Exists(saveFolder))
-                    {
-                        Directory.CreateDirectory(saveFolder);
-                    }
-                    SaveFileDialog savedialog = new SaveFileDialog();
-                    savedialog.Filter = "Excel Files|*.xlsx;";
-                    savedialog.Title = "Save";
-                    savedialog.FileName = "Indeed_" + DateTime.Now.ToString("yyyyMMdd_HHmm");
-                    savedialog.InitialDirectory = saveFolder;
-                    savedialog.RestoreDirectory = true;
-
-                    if (savedialog.ShowDialog() == DialogResult.OK)
-                    {
-                        if (Path.GetExtension(savedialog.FileName).Contains(".xlsx"))
-                        {
-                            using (XLWorkbook wb = new XLWorkbook())
-                            {
-                                wb.Worksheets.Add(dtFinal, "SearchResult");
-                                wb.SaveAs(savedialog.FileName);
-                            }
-                            Process.Start(Path.GetDirectoryName(savedialog.FileName));
-                        }
-                    }
-                    this.Cursor = Cursor.Current;
                 }
+
+                //dtFinal = dtResult;//ktp - to remove 
+                if (dtResult.Rows.Count > 0)
+                {
+                    dtFinal = dtResult.AsEnumerable()
+                                                     .GroupBy(x => x.Field<string>("Company"))
+                                                     .Select(x => x.First())
+                                                     .CopyToDataTable();
+                }
+
+
+                string saveFolder = @"C:\Indeed\Search_Result\2022_01_26";
+                if (!Directory.Exists(saveFolder))
+                {
+                    Directory.CreateDirectory(saveFolder);
+                }
+                SaveFileDialog savedialog = new SaveFileDialog();
+                savedialog.Filter = "Excel Files|*.xlsx;";
+                savedialog.Title = "Save";
+                savedialog.FileName = "Indeed_" + DateTime.Now.ToString("yyyyMMdd_HHmm");
+                savedialog.InitialDirectory = saveFolder;
+                savedialog.RestoreDirectory = true;
+
+                if (savedialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (Path.GetExtension(savedialog.FileName).Contains(".xlsx"))
+                    {
+                        using (XLWorkbook wb = new XLWorkbook())
+                        {
+                            wb.Worksheets.Add(dtFinal, "SearchResult");
+                            wb.SaveAs(savedialog.FileName);
+                        }
+                        Process.Start(Path.GetDirectoryName(savedialog.FileName));
+                    }
+                }
+                this.Cursor = Cursor.Current;
             }            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
