@@ -172,7 +172,7 @@
         </member>
         <member name="M:ClosedXML.Excel.CalcEngine.CalcEngineHelpers.GetTotalCellsCount(ClosedXML.Excel.CalcEngine.XObjectExpression)">
             <summary>
-            Get total count of cells in the specified range without initalizing them all
+            Get total count of cells in the specified range without initializing them all
             (which might cause serious performance issues on column-wide calculations).
             </summary>
             <param name="rangeExpression">Expression referring to the cell range.</param>
@@ -335,7 +335,7 @@
             <exception cref="T:System.ApplicationException">
             Delimiter in first param must be a string
             or
-            Second param must be a boolen (TRUE/FALSE)
+            Second param must be a boolean (TRUE/FALSE)
             </exception>
         </member>
         <member name="T:ClosedXML.Excel.CalcEngine.Token">
@@ -366,7 +366,7 @@
         </member>
         <member name="P:ClosedXML.Excel.IXLCell.CachedValue">
             <summary>
-            Calculated value of cell formula. Is used for decreasing number of computations perfromed.
+            Calculated value of cell formula. Is used for decreasing number of computations performed.
             May hold invalid value when <see cref="P:ClosedXML.Excel.IXLCell.NeedsRecalculation"/> flag is True.
             </summary>
         </member>
@@ -468,6 +468,26 @@
             </summary>
             <param name="clearOptions">Specify what you want to clear.</param>
         </member>
+        <member name="M:ClosedXML.Excel.IXLCell.CreateComment">
+            <summary>
+            Creates a new comment for the cell, replacing the existing one.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.CreateDataValidation">
+            <summary>
+            Creates a new data validation rule for the cell, replacing the existing one.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.CreateHyperlink">
+            <summary>
+            Creates a new hyperlink replacing the existing one.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.CreateRichText">
+            <summary>
+            Replaces a value of the cell with a newly created rich text object.
+            </summary>
+        </member>
         <member name="M:ClosedXML.Excel.IXLCell.Delete(ClosedXML.Excel.XLShiftDeletedCells)">
             <summary>
             Deletes the current cell and shifts the surrounding cells according to the shiftDeleteCells parameter.
@@ -479,6 +499,16 @@
             Gets the cell's value converted to Boolean.
             <para>ClosedXML will try to covert the current value to Boolean.</para>
             <para>An exception will be thrown if the current value cannot be converted to Boolean.</para>
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.GetComment">
+            <summary>
+            Returns the comment for the cell or create a new instance if there is no comment on the cell.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.GetDataValidation">
+            <summary>
+            Returns a data validation rule assigned to the cell, if any, or creates a new instance of data validation rule if no rule exists.
             </summary>
         </member>
         <member name="M:ClosedXML.Excel.IXLCell.GetDateTime">
@@ -498,6 +528,16 @@
         <member name="M:ClosedXML.Excel.IXLCell.GetFormattedString">
             <summary>
             Gets the cell's value formatted depending on the cell's data type and style.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.GetHyperlink">
+            <summary>
+            Returns a hyperlink for the cell, if any, or creates a new instance is there is no hyperlink.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.GetRichText">
+            <summary>
+            Returns the value of the cell if it formatted as a rich text.
             </summary>
         </member>
         <member name="M:ClosedXML.Excel.IXLCell.GetString">
@@ -699,11 +739,6 @@
             </summary>
             <value>The formula with R1C1 references.</value>
         </member>
-        <member name="P:ClosedXML.Excel.XLCell.DataValidation">
-            <summary>
-            Get the data validation rule containing current cell or create a new one if no rule was defined for cell.
-            </summary>
-        </member>
         <member name="P:ClosedXML.Excel.XLCell.IsEvaluating">
             <summary>
             Flag showing that the cell is in formula evaluation state.
@@ -720,7 +755,7 @@
             <summary>
             Perform an evaluation of cell formula. If cell does not contain formula nothing happens, if cell does not need
             recalculation (<see cref="P:ClosedXML.Excel.XLCell.NeedsRecalculation"/> is False) nothing happens either, unless <paramref name="force"/> flag is specified.
-            Otherwise recalculation is perfomed, result value is preserved in <see cref="P:ClosedXML.Excel.XLCell.CachedValue"/> and returned.
+            Otherwise recalculation is performed, result value is preserved in <see cref="P:ClosedXML.Excel.XLCell.CachedValue"/> and returned.
             </summary>
             <param name="force">Flag indicating whether a recalculation must be performed even is cell does not need it.</param>
             <returns>Null if cell does not contain a formula. Calculated value otherwise.</returns>
@@ -746,14 +781,14 @@
         <member name="P:ClosedXML.Excel.XLCell.NeedsRecalculationEvaluatedAtVersion">
             <summary>
             The value of <see cref="P:ClosedXML.Excel.XLWorkbook.RecalculationCounter"/> that workbook had at the moment of determining whether the cell
-            needs re-evaluation (due to it has been edited or some of the affecting cells has). If thie value equals to <see cref="P:ClosedXML.Excel.XLWorkbook.RecalculationCounter"/>
+            needs re-evaluation (due to it has been edited or some of the affecting cells has). If this value equals to <see cref="P:ClosedXML.Excel.XLWorkbook.RecalculationCounter"/>
             it indicates that <see cref="F:ClosedXML.Excel.XLCell._recalculationNeededLastValue"/> stores correct value and no check has to be performed.
             </summary>
         </member>
         <member name="P:ClosedXML.Excel.XLCell.Sparkline">
             <summary> The sparkline assigned to the cell </summary>
         </member>
-        <member name="M:ClosedXML.Excel.XLCell.GetDataValidation">
+        <member name="M:ClosedXML.Excel.XLCell.FindDataValidation">
             <summary>
             Get the data validation rule containing current cell.
             </summary>
@@ -1028,7 +1063,7 @@
         </member>
         <member name="M:ClosedXML.Excel.XLColumn.#ctor(ClosedXML.Excel.XLWorksheet,System.Int32)">
             <summary>
-            The direct contructor should only be used in <see cref="P:ClosedXML.Excel.XLWorksheet.RangeFactory"/>.
+            The direct constructor should only be used in <see cref="P:ClosedXML.Excel.XLWorksheet.RangeFactory"/>.
             </summary>
         </member>
         <member name="M:ClosedXML.Excel.XLColumn.AddVerticalPageBreak">
@@ -1036,13 +1071,14 @@
               Adds a vertical page break after this column.
             </summary>
         </member>
-        <member name="M:ClosedXML.Excel.XLColumns.#ctor(ClosedXML.Excel.XLWorksheet,ClosedXML.Excel.XLStyleValue)">
+        <member name="M:ClosedXML.Excel.XLColumns.#ctor(ClosedXML.Excel.XLWorksheet,ClosedXML.Excel.XLStyleValue,System.Collections.Generic.IEnumerable{ClosedXML.Excel.XLColumn})">
             <summary>
             Create a new instance of <see cref="T:ClosedXML.Excel.XLColumns"/>.
             </summary>
             <param name="worksheet">If worksheet is specified it means that the created instance represents
             all columns on a worksheet so changing its width will affect all columns.</param>
             <param name="defaultStyle">Default style to use when initializing child entries.</param>
+            <param name="lazyEnumerable">A predefined enumerator of <see cref="T:ClosedXML.Excel.XLColumn"/> to support lazy initialization.</param>
         </member>
         <member name="M:ClosedXML.Excel.XLColumns.AddVerticalPageBreaks">
             <summary>
@@ -1183,6 +1219,11 @@
             <returns>The instance that has actually been added in the collection
             (may be a copy of the specified one).</returns>
         </member>
+        <member name="M:ClosedXML.Excel.IXLDataValidations.GetAllInRange(ClosedXML.Excel.IXLRangeAddress)">
+            <summary>
+            Get all data validation rules applied to ranges that intersect the specified range.
+            </summary>
+        </member>
         <member name="M:ClosedXML.Excel.IXLDataValidations.TryGet(ClosedXML.Excel.IXLRangeAddress,ClosedXML.Excel.IXLDataValidation@)">
             <summary>
             Get the data validation rule for the range with the specified address if it exists.
@@ -1193,11 +1234,6 @@
             For example, if the rule is applied to ranges A1:A3,C1:C3 then this method will
             return True for ranges A1:A3, C1:C2, A2:A3, and False for ranges A1:C3, A1:C1, etc.</param>
             <returns>True is the data validation rule was found, false otherwise.</returns>
-        </member>
-        <member name="M:ClosedXML.Excel.IXLDataValidations.GetAllInRange(ClosedXML.Excel.IXLRangeAddress)">
-            <summary>
-            Get all data validation rules applied to ranges that intersect the specified range.
-            </summary>
         </member>
         <member name="M:ClosedXML.Excel.XLDataValidation.AddRange(ClosedXML.Excel.IXLRange)">
             <summary>
@@ -1226,6 +1262,17 @@
             </summary>
             <param name="range">A range to remove.</param>
         </member>
+        <member name="F:ClosedXML.Excel.XLDataValidations._skipSplittingExistingRanges">
+            <summary>
+            The flag used to avoid unnecessary check for splitting intersected ranges when we already
+            are performing the splitting.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.XLDataValidations.GetAllInRange(ClosedXML.Excel.IXLRangeAddress)">
+            <summary>
+            Get all data validation rules applied to ranges that intersect the specified range.
+            </summary>
+        </member>
         <member name="M:ClosedXML.Excel.XLDataValidations.TryGet(ClosedXML.Excel.IXLRangeAddress,ClosedXML.Excel.IXLDataValidation@)">
             <summary>
             Get the data validation rule for the range with the specified address if it exists.
@@ -1236,17 +1283,6 @@
             For example, if the rule is applied to ranges A1:A3,C1:C3 then this method will
             return True for ranges A1:A3, C1:C2, A2:A3, and False for ranges A1:C3, A1:C1, etc.</param>
             <returns>True is the data validation rule was found, false otherwise.</returns>
-        </member>
-        <member name="M:ClosedXML.Excel.XLDataValidations.GetAllInRange(ClosedXML.Excel.IXLRangeAddress)">
-            <summary>
-            Get all data validation rules applied to ranges that intersect the specified range.
-            </summary>
-        </member>
-        <member name="F:ClosedXML.Excel.XLDataValidations._skipSplittingExistingRanges">
-            <summary>
-            The flag used to avoid unnecessary check for splitting intersected ranges when we already
-            are performing the splitting.
-            </summary>
         </member>
         <member name="T:ClosedXML.Excel.XLDataValidations.XLDataValidationIndexEntry">
             <summary>
@@ -1294,6 +1330,33 @@
             Create a copy of the picture on the same worksheet.
             </summary>
             <returns>A created copy of the picture.</returns>
+        </member>
+        <member name="T:ClosedXML.Excel.InsertData.IInsertDataReader">
+            <summary>
+            A universal interface for different data readers used in InsertData logic.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.InsertData.IInsertDataReader.GetData">
+            <summary>
+            Get a collection of records, each as a collection of values, extracted from a source.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.InsertData.IInsertDataReader.GetPropertiesCount">
+            <summary>
+            Get the number of properties to use as a table with.
+            Actual number of may vary in different records.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.InsertData.IInsertDataReader.GetPropertyName(System.Int32)">
+            <summary>
+            Get the title of the property with the specified index.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.InsertData.IInsertDataReader.GetRecordsCount">
+            <summary>
+            Get the total number of records.
+            </summary>
+            <returns></returns>
         </member>
         <member name="P:ClosedXML.Excel.IXLSheetView.SplitColumn">
             <summary>
@@ -2182,7 +2245,7 @@
             Gets or sets a value indicating whether the worksheet will be centered on the page vertically.
             </summary>
             <value>
-              <c>true</c> if the worksheet will be centered on the page vartically; otherwise, <c>false</c>.
+              <c>true</c> if the worksheet will be centered on the page vertically; otherwise, <c>false</c>.
             </value>
         </member>
         <member name="M:ClosedXML.Excel.IXLPageSetup.AdjustTo(System.Int32)">
@@ -2343,7 +2406,7 @@
         </member>
         <member name="P:ClosedXML.Excel.Patterns.Quadrant.Children">
             <summary>
-            Smaller quadrants which the current one is splitted to. Is NULL until ranges are added to child quadrants.
+            Smaller quadrants which the current one is split to. Is NULL until ranges are added to child quadrants.
             </summary>
         </member>
         <member name="P:ClosedXML.Excel.Patterns.Quadrant.Level">
@@ -2917,6 +2980,27 @@
             </summary>
             <param name="transposeOption">How to handle the surrounding cells when transposing the range.</param>
         </member>
+        <member name="M:ClosedXML.Excel.IXLRange.AsTable">
+            <summary>
+            Use this range as a table, but do not add it to the Tables list
+            </summary>
+            <remarks>
+            NOTES:<br/>
+                The AsTable method will use the first row of the range as a header row.<br/>
+                If this range contains only one row, then an empty data row will be inserted into the returned table.
+            </remarks>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLRange.AsTable(System.String)">
+            <summary>
+            Use this range as a table with the passed name, but do not add it to the Tables list
+            </summary>
+            <param name="name">Table name to be used.</param>
+            <remarks>
+            NOTES:<br/>
+                The AsTable method will use the first row of the range as a header row.<br/>
+                If this range contains only one row, then an empty data row will be inserted into the returned table.
+            </remarks>
+        </member>
         <member name="M:ClosedXML.Excel.IXLRange.Clear(ClosedXML.Excel.XLClearOptions)">
             <summary>
             Clears the contents of this range.
@@ -3224,6 +3308,16 @@
             <returns>
               <c>true</c> if is entire sheet; otherwise, <c>false</c>.
             </returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLRangeBase.GetDataValidation">
+            <summary>
+            Returns a data validation rule assigned to the range, if any, or creates a new instance of data validation rule if no rule exists.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLRangeBase.CreateDataValidation">
+            <summary>
+            Creates a new data validation rule for the range, replacing the existing one.
+            </summary>
         </member>
         <member name="M:ClosedXML.Excel.IXLRangeBase.Grow">
             <summary>
@@ -3556,6 +3650,11 @@
             that using Linq expression .Where().
             </summary>
         </member>
+        <member name="M:ClosedXML.Excel.IXLRanges.CreateDataValidation">
+            <summary>
+            Creates a new data validation rule for the ranges collection, replacing the existing ones.
+            </summary>
+        </member>
         <member name="M:ClosedXML.Excel.IXLRanges.AddToNamed(System.String)">
             <summary>
             Creates a named range out of these ranges.
@@ -3627,11 +3726,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:ClosedXML.Excel.XLRangeBase.DataValidation">
-            <summary>
-            Get the data validation rule containing current range or create a new one if no rule was defined for range.
-            </summary>
-        </member>
         <member name="M:ClosedXML.Excel.XLRangeBase.CellValues">
             <summary>
             Return the collection of cell values not initializing empty cells.
@@ -3639,7 +3733,7 @@
         </member>
         <member name="M:ClosedXML.Excel.XLRangeColumn.#ctor(ClosedXML.Excel.XLRangeParameters)">
             <summary>
-            The direct contructor should only be used in <see cref="P:ClosedXML.Excel.XLWorksheet.RangeFactory"/>.
+            The direct constructor should only be used in <see cref="P:ClosedXML.Excel.XLWorksheet.RangeFactory"/>.
             </summary>
         </member>
         <member name="T:ClosedXML.Excel.XLRangeConsolidationEngine">
@@ -3681,7 +3775,7 @@
         </member>
         <member name="M:ClosedXML.Excel.XLRangeRow.#ctor(ClosedXML.Excel.XLRangeParameters)">
             <summary>
-            The direct contructor should only be used in <see cref="P:ClosedXML.Excel.XLWorksheet.RangeFactory"/>.
+            The direct constructor should only be used in <see cref="P:ClosedXML.Excel.XLWorksheet.RangeFactory"/>.
             </summary>
         </member>
         <member name="F:ClosedXML.Excel.XLRanges._indexes">
@@ -3980,16 +4074,17 @@
         </member>
         <member name="M:ClosedXML.Excel.XLRow.#ctor(ClosedXML.Excel.XLWorksheet,System.Int32)">
             <summary>
-            The direct contructor should only be used in <see cref="P:ClosedXML.Excel.XLWorksheet.RangeFactory"/>.
+            The direct constructor should only be used in <see cref="P:ClosedXML.Excel.XLWorksheet.RangeFactory"/>.
             </summary>
         </member>
-        <member name="M:ClosedXML.Excel.XLRows.#ctor(ClosedXML.Excel.XLWorksheet,ClosedXML.Excel.XLStyleValue)">
+        <member name="M:ClosedXML.Excel.XLRows.#ctor(ClosedXML.Excel.XLWorksheet,ClosedXML.Excel.XLStyleValue,System.Collections.Generic.IEnumerable{ClosedXML.Excel.XLRow})">
             <summary>
             Create a new instance of <see cref="T:ClosedXML.Excel.XLRows"/>.
             </summary>
             <param name="worksheet">If worksheet is specified it means that the created instance represents
             all rows on a worksheet so changing its height will affect all rows.</param>
             <param name="defaultStyle">Default style to use when initializing child entries.</param>
+            <param name="lazyEnumerable">A predefined enumerator of <see cref="T:ClosedXML.Excel.XLRow"/> to support lazy initialization.</param>
         </member>
         <member name="P:ClosedXML.Excel.SaveOptions.FilterPrivacy">
             <summary>
@@ -4224,7 +4319,7 @@
         </member>
         <member name="P:ClosedXML.Excel.IXLAlignment.TopToBottom">
             <summary>
-            Gets or sets wheter the cell's text should be displayed from to to bottom
+            Gets or sets whether the cell's text should be displayed from to to bottom
             <para>(as opposed to the normal left to right).</para>
             </summary>
         </member>
@@ -4906,7 +5001,7 @@
         </member>
         <member name="M:ClosedXML.Excel.XLTable.#ctor(ClosedXML.Excel.XLRangeParameters)">
             <summary>
-            The direct contructor should only be used in <see cref="P:ClosedXML.Excel.XLWorksheet.RangeFactory"/>.
+            The direct constructor should only be used in <see cref="P:ClosedXML.Excel.XLWorksheet.RangeFactory"/>.
             </summary>
         </member>
         <member name="F:ClosedXML.Excel.XLCellSetValueBehavior.Smart">
@@ -5150,55 +5245,40 @@
             as well. As a result, the value 1:12:30 saved on one machine could become 1:12:29.999999 on another.
             </summary>
         </member>
-        <member name="T:ClosedXML.PathHelper">
+        <member name="M:ClosedXML.Excel.XLHelper.CreateSafeSheetName(System.String,System.Char)">
             <summary>
-              Help methods for work with files
+            Creates a valid sheet name, which conforms to the following rules.
+            A sheet name:
+            is never null,
+            has minimum length of 1 and
+            maximum length of 31,
+            doesn't contain special chars: (: 0x0000 0x0003 / \ ? * ] [).
+            Sheet names must not begin or end with ' (apostrophe)
             </summary>
+            <param name="nameProposal">can be any string, will be truncated if necessary, allowed to be null</param>
+            <param name="replaceChar">the char to replace invalid characters.</param>
+            <returns>a valid string, "empty" if too short, "null" if null</returns>
         </member>
-        <member name="F:ClosedXML.PathHelper.ms_checkValidRelativePathRegEx">
-            <summary>
-              Can check only .\dfdfd\dfdf\dfdf or ..\..\gfhfgh\fghfh
-            </summary>
-        </member>
-        <member name="M:ClosedXML.PathHelper.GetTimeStamp">
-            <summary>
-              Gets data and time string stamp for file name
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ClosedXML.PathHelper.GetTimeStamp(System.DateTime)">
-            <summary>
-              Gets data and time string stamp for file name
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ClosedXML.PathHelper.SafetyDeleteFile(System.String)">
-            <summary>
-              Safety delete file(with try block)
-            </summary>
-            <param name = "fileName">file name</param>
-        </member>
-        <member name="M:ClosedXML.PathHelper.NormalizeFileName(System.String)">
-            <summary>
-              Replace all not implemented symbols to '_'
-            </summary>
-            <param name = "fileName">input filename</param>
-            <returns></returns>
-        </member>
-        <member name="M:ClosedXML.PathHelper.ValidatePath(System.String,ClosedXML.PathHelper.PathTypes)">
-            <summary>
-              ValidatePath file or diretory path
-            </summary>
-            <param name = "path"></param>
-            <param name = "type">path type</param>
-            <returns></returns>
-        </member>
-        <member name="M:ClosedXML.PathHelper.ValidateFileName(System.String)">
-            <summary>
-              ValidatePath file or diretory path
-            </summary>
-            <param name = "fileName"></param>
-            <returns></returns>
+        <member name="M:ClosedXML.Excel.XLHelper.ValidateSheetName(System.String)">
+             <summary>
+             Validates the name of the sheet.
+             The character count MUST be greater than or equal to 1 and less than or equal to 31.
+             The string MUST NOT contain the any of the following characters:
+             - 0x0000
+             - 0x0003
+             - colon (:)
+             - backslash(\)
+             - asterisk(*)
+             - question mark(?)
+             - forward slash(/)
+             - opening square bracket([)
+             - closing square bracket(])
+             The string MUST NOT begin or end with the single quote(') character.
+             </summary>
+             <param name="sheetName">Name of the sheet.</param>
+             <exception cref="T:System.ArgumentException">
+             </exception>
+            
         </member>
         <member name="M:ClosedXML.Utils.OpenXmlHelper.FromClosedXMLColor``1(DocumentFormat.OpenXml.Spreadsheet.ColorType,ClosedXML.Excel.XLColor,System.Boolean)">
             <summary>
@@ -5207,7 +5287,7 @@
             <typeparam name="T">The descendant of <see cref="T:DocumentFormat.OpenXml.Spreadsheet.ColorType"/>.</typeparam>
             <param name="openXMLColor">The existing instance of ColorType.</param>
             <param name="xlColor">Color in ClosedXML format.</param>
-            <param name="isDifferential">Flag specifiying that the color should be saved in
+            <param name="isDifferential">Flag specifying that the color should be saved in
             differential format (affects the transparent color processing).</param>
             <returns>The original color in OpenXML format.</returns>
         </member>
@@ -5218,7 +5298,7 @@
             <typeparam name="T">The descendant of <see cref="T:DocumentFormat.OpenXml.Office2010.Excel.ColorType"/>.</typeparam>
             <param name="openXMLColor">The existing instance of ColorType.</param>
             <param name="xlColor">Color in ClosedXML format.</param>
-            <param name="isDifferential">Flag specifiying that the color should be saved in
+            <param name="isDifferential">Flag specifying that the color should be saved in
             differential format (affects the transparent color processing).</param>
             <returns>The original color in OpenXML format.</returns>
         </member>
@@ -5240,7 +5320,7 @@
         </member>
         <member name="M:ClosedXML.Utils.OpenXmlHelper.ConvertToClosedXMLColor(ClosedXML.Utils.IColorTypeAdapter,System.Collections.Generic.IDictionary{System.String,System.Drawing.Color})">
             <summary>
-            Here we perform the actual convertion from OpenXML color to ClosedXML color.
+            Here we perform the actual conversion from OpenXML color to ClosedXML color.
             </summary>
             <param name="openXMLColor">OpenXML color. Must be either <see cref="T:DocumentFormat.OpenXml.Spreadsheet.ColorType"/> or <see cref="T:DocumentFormat.OpenXml.Office2010.Excel.ColorType"/>. 
             Since these types do not implement a common interface we use dynamic.</param>
@@ -5255,7 +5335,7 @@
             <param name="openXMLColor">OpenXML color. Must be either <see cref="T:DocumentFormat.OpenXml.Spreadsheet.ColorType"/> or <see cref="T:DocumentFormat.OpenXml.Office2010.Excel.ColorType"/>. 
             Since these types do not implement a common interface we use dynamic.</param>
             <param name="xlColor">Color in ClosedXML format.</param>
-            <param name="isDifferential">Flag specifiying that the color should be saved in
+            <param name="isDifferential">Flag specifying that the color should be saved in
             differential format (affects the transparent color processing).</param>
         </member>
     </members>
