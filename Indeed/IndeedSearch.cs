@@ -2,7 +2,7 @@
 
 
 
-        #region Search by Key and Location on Indeed and Export to Excel         private void btnRun_Click(object sender, EventArgs e)        {            IWebDriver driver;            driver = new ChromeDriver();            try
+        #region Search by Key and Location on Indeed and Export to Excel         private void btnRun_Click(object sender, EventArgs e)        {            IWebDriver driver;            driver = new ChromeDriver();            try
             {
                 this.Cursor = Cursors.WaitCursor;
                 DataTable dtFinal = new DataTable();
@@ -28,14 +28,15 @@
                 string[] locationArr = txtLocation.Text.Split(',');
 
                 int itemcount = 0;
-                foreach(string location in locationArr)
+                foreach (string location in locationArr)
                 {
                     itemcount = 0;
                     start = 0;
                     int c1 = 0;
+
                     do
                     {
-                        
+
                         string l1 = location.Replace(" ", "%20");
 
                         driver.Navigate().GoToUrl("https://jp.indeed.com/求人?q=" + txtKeyword.Text + "&l=" + l1 + "&limit=50&start=" + start.ToString());//searh url with start param
@@ -46,7 +47,7 @@
                             break;
 
                         string s1 = driver.FindElement(By.Id("searchCountPages")).Text;
-                        if(s1.Length > 0)       //added by tza for index was out of range error
+                        if (s1.Length > 0)    //added by tza for index was out of range error
                         {
                             c1 = Convert.ToInt32(s1.Split(' ')[1].Replace(",", ""));
 
@@ -65,10 +66,10 @@
                                 }
 
                                 //get all title,company,location by array
-                                IList<IWebElement> arrTitle = driver.FindElements(By.ClassName("title"));//募集内容 
-                                IList<IWebElement> arrCompany = driver.FindElements(By.ClassName("company"));//会社名
-                                                                                                             //IList<IWebElement> arrPrefecture = driver.FindElements(By.ClassName("prefecture"));//都道府県
-                                IList<IWebElement> arrLocation = driver.FindElements(By.ClassName("location"));//所在地
+                                IList<IWebElement> arrTitle = driver.FindElements(By.ClassName("jobTitle"));//募集内容 
+                                IList<IWebElement> arrCompany = driver.FindElements(By.ClassName("companyName"));//会社名
+                                                                                                                 //IList<IWebElement> arrPrefecture = driver.FindElements(By.ClassName("prefecture"));//都道府県
+                                IList<IWebElement> arrLocation = driver.FindElements(By.ClassName("companyLocation"));//所在地
 
                                 for (int i = 0; i < arrTitle.Count; i++)
                                 {
@@ -92,7 +93,7 @@
                                     else
                                         dtResult.Rows[j]["Company"] = " ";
                                     dtResult.Rows[j]["都道府県"] = location;
-                                    if(arrLocation.Count > i)
+                                    if (arrLocation.Count > i)
                                         dtResult.Rows[j]["Location"] = arrLocation[i].Text;
                                     else
                                         dtResult.Rows[j]["Location"] = " ";
@@ -102,7 +103,6 @@
                                 }
 
                                 itemcount += arrTitle.Count;
-
                                 //if (string.Equals(Title1, LastTitle1) && string.Equals(Title2, LastTitle2) && string.Equals(Title3, LastTitle3))
                                 //{
                                 //    stop = true;
@@ -126,10 +126,9 @@
 
                     } while (c1 >= itemcount);
 
-                    //driver.Quit();
                 }
 
-                //dtFinal = dtResult;//ktp - to remove  
+                //dtFinal = dtResult;//ktp - to remove 
                 if (dtResult.Rows.Count > 0)
                 {
                     dtFinal = dtResult.AsEnumerable()
@@ -139,7 +138,7 @@
                 }
 
 
-                string saveFolder = @"C:\Indeed\Search_Result\2021_05_14";
+                string saveFolder = @"C:\Indeed\Search_Result\2022_01_26";
                 if (!Directory.Exists(saveFolder))
                 {
                     Directory.CreateDirectory(saveFolder);
@@ -147,7 +146,7 @@
                 SaveFileDialog savedialog = new SaveFileDialog();
                 savedialog.Filter = "Excel Files|*.xlsx;";
                 savedialog.Title = "Save";
-                savedialog.FileName = "Indeed_"+DateTime.Now.ToString("yyyyMMdd_HHmm");
+                savedialog.FileName = "Indeed_" + DateTime.Now.ToString("yyyyMMdd_HHmm");
                 savedialog.InitialDirectory = saveFolder;
                 savedialog.RestoreDirectory = true;
 
@@ -164,7 +163,7 @@
                     }
                 }
                 this.Cursor = Cursor.Current;
-            }            catch(Exception ex)
+            }            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }            finally
@@ -172,7 +171,7 @@
                 driver.Quit();
             }
 
-
+        }
 
             //using (XLWorkbook wb = new XLWorkbook())
             //{
@@ -181,7 +180,7 @@
 
             //    Process.Start(txtFilePath.Text);
             //}
-        }
+        
 
 
 
@@ -201,7 +200,7 @@
 
 
         #endregion
-        #region Merge Excel files into one and Export        private void btnExportOneFile_Click(object sender, EventArgs e)        {            DataTable dt = new DataTable();            DataTable dtexcel = new DataTable();            DataTable dtexcelIntoOne = new DataTable();            string folderpath = @"C:\Indeed\Search_Result\2021_05_14";            string[] files = Directory.GetFiles(folderpath, "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith("ls") || s.EndsWith("sx")).ToArray();            for (int s = 0; s < files.Length; s++)            {                string file = files[s].ToString();                Stream st = File.Open(file, FileMode.Open, FileAccess.Read);                IExcelDataReader reader = ExcelReaderFactory.CreateReader(st);                DataSet ds = reader.AsDataSet(new ExcelDataSetConfiguration()                {                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()                    {                        UseHeaderRow = true                    }                });                dt.Merge(ds.Tables[0]);            }            dtexcel = CreateDatatable();            for (int i = 0; i < dt.Rows.Count; i++)            {                dtexcel.Rows.Add();                dtexcel.Rows[i]["Title"] = dt.Rows[i]["Title"].ToString();                dtexcel.Rows[i]["Company"] = dt.Rows[i]["Company"].ToString();                dtexcel.Rows[i]["都道府県"] = dt.Rows[i]["都道府県"].ToString();                dtexcel.Rows[i]["Location"] = dt.Rows[i]["Location"].ToString();                dtexcel.Rows[i]["お問い合わせのURL"] = dt.Rows[i]["お問い合わせのURL"].ToString();            }
+        #region Merge Excel files into one and Export        private void btnExportOneFile_Click(object sender, EventArgs e)        {            DataTable dt = new DataTable();            DataTable dtexcel = new DataTable();            DataTable dtexcelIntoOne = new DataTable();            string folderpath = @"C:\Indeed\Search_Result\2022_07_01";            string[] files = Directory.GetFiles(folderpath, "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith("ls") || s.EndsWith("sx")).ToArray();            for (int s = 0; s < files.Length; s++)            {                string file = files[s].ToString();                Stream st = File.Open(file, FileMode.Open, FileAccess.Read);                IExcelDataReader reader = ExcelReaderFactory.CreateReader(st);                DataSet ds = reader.AsDataSet(new ExcelDataSetConfiguration()                {                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()                    {                        UseHeaderRow = true                    }                });                dt.Merge(ds.Tables[0]);            }            dtexcel = CreateDatatable();            for (int i = 0; i < dt.Rows.Count; i++)            {                dtexcel.Rows.Add();                dtexcel.Rows[i]["Title"] = dt.Rows[i]["Title"].ToString();                dtexcel.Rows[i]["Company"] = dt.Rows[i]["Company"].ToString();                dtexcel.Rows[i]["都道府県"] = dt.Rows[i]["都道府県"].ToString();                dtexcel.Rows[i]["Location"] = dt.Rows[i]["Location"].ToString();                dtexcel.Rows[i]["お問い合わせのURL"] = dt.Rows[i]["お問い合わせのURL"].ToString();            }
 
             if (dtexcel.Rows.Count > 0)
             {
